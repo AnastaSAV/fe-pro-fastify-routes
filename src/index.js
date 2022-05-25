@@ -39,15 +39,15 @@ fastify.get('/user/:id', (request, reply) => {
 });
 //Users
 fastify.get('/users', (request, reply) => {
-  const { filter, value } = request.query;
-  const usersArray = Object.values(users);
-  if(!{ filter, value }) {
+  let { filter, value } = request.query;
+  let usersArray = Object.values(users);
+  if(!filter || !value) {
     return reply.send(usersArray)
   }
   else {
     const filteredUsers = usersArray.filter((user) => {
-      return user[filter] === user[value];
-    })
+      return user[filter].toString() === value;
+    });
     return reply.send(filteredUsers);
   }
 });
